@@ -1,0 +1,382 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --main-color: #222;
+  --main-width: 4px;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  margin: 20px auto;
+  width: 1000px;
+  .game-info {
+    display: flex;
+    justify-content: space-between;
+    .game-name {
+      font-weight: bold;
+    }
+    .category {
+      span {
+        text-transform: capitalize;
+        color: #e91e63;
+        font-weight: bold;
+      }
+    }
+  }
+  hr {
+    border: 1px solid #eee;
+  }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    .hangman-draw {
+      flex: 1;
+      background-color: #f8f8f8;
+      padding: 20px;
+      height: 420px;
+      .draw {
+        width: 60px;
+        height: 280px;
+        position: relative;
+        margin: auto;
+        left: -60px;
+        border-bottom: var(--main-width) solid var(--main-color);
+        display: none;
+        .stand {
+          position: absolute;
+          width: var(--main-width);
+          background-color: var(--main-color);
+          height: 100%;
+          left: 50%;
+          margin-left: -2px;
+          display: none;
+        }
+        .hang {
+          display: none;
+        }
+        .hang::before {
+          content: "";
+          position: absolute;
+          height: var(--main-width);
+          background-color: var(--main-color);
+          width: 100px;
+          left: 30px;
+          top: 15px;
+        }
+        .hang::after {
+          content: "";
+          position: absolute;
+          height: 30px;
+          background-color: var(--main-color);
+          width: var(--main-width);
+          left: 130px;
+          top: 15px;
+        }
+        .rope {
+          display: none;
+          width: 70px;
+          height: 70px;
+          border-radius: 50%;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          -ms-border-radius: 50%;
+          -o-border-radius: 50%;
+          border: var(--main-width) dashed var(--main-color);
+          position: absolute;
+          top: 45px;
+          left: 95px;
+        }
+        .person {
+          .head {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            position: absolute;
+            border: var(--main-width) solid var(--main-color);
+            left: 105px;
+            top: 55px;
+          }
+          .body {
+            position: absolute;
+            display: none;
+            background-color: var(--main-color);
+            width: var(--main-width);
+            height: 110px;
+            top: 105px;
+            left: 130px;
+          }
+          .hands {
+            display: none;
+          }
+          .hands::after,
+          .hands::before {
+            content: "";
+            width: 50px;
+            position: absolute;
+            height: var(--main-width);
+            background-color: var(--main-color);
+            top: 150px;
+          }
+
+          .hands::before {
+            left: 85px;
+            transform: rotate(30deg);
+            -webkit-transform: rotate(30deg);
+            -moz-transform: rotate(30deg);
+            -ms-transform: rotate(30deg);
+            -o-transform: rotate(30deg);
+          }
+          .hands::after {
+            left: 130px;
+            transform: rotate(-30deg);
+            -webkit-transform: rotate(-30deg);
+            -moz-transform: rotate(-30deg);
+            -ms-transform: rotate(-30deg);
+            -o-transform: rotate(-30deg);
+          }
+          .legs {
+            display: none;
+          }
+          .legs::after,
+          .legs::before {
+            content: "";
+            width: 50px;
+            position: absolute;
+            height: var(--main-width);
+            background-color: var(--main-color);
+            top: 225px;
+          }
+
+          .legs::before {
+            left: 85px;
+            transform: rotate(-30deg);
+            -webkit-transform: rotate(-30deg);
+            -moz-transform: rotate(-30deg);
+            -ms-transform: rotate(-30deg);
+            -o-transform: rotate(-30deg);
+          }
+          .legs::after {
+            left: 130px;
+            transform: rotate(30deg);
+            -webkit-transform: rotate(30deg);
+            -moz-transform: rotate(30deg);
+            -ms-transform: rotate(30deg);
+            -o-transform: rotate(30deg);
+          }
+        }
+      }
+    }
+
+    .hangman-draw.wrong-1 .draw {
+      display: block;
+    }
+    .hangman-draw.wrong-2 .stand {
+      display: block;
+    }
+    .hangman-draw.wrong-3 .hang {
+      display: block;
+    }
+    .hangman-draw.wrong-4 .rope {
+      display: block;
+    }
+    .hangman-draw.wrong-5 .person .head {
+      display: block;
+    }
+    .hangman-draw.wrong-6 .person .body {
+      display: block;
+    }
+    .hangman-draw.wrong-7 .person .hands {
+      display: block;
+    }
+    .hangman-draw.wrong-8 .person .legs {
+      display: block;
+    }
+    .letters {
+      flex: 1;
+      padding: 15px;
+      text-align: center;
+      .letter-box {
+        width: 55px;
+        height: 55px;
+        display: inline-block;
+        background-color: #009688;
+        color: #fff;
+        font-size: 24px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        text-transform: uppercase;
+        line-height: 55px;
+        font-weight: bold;
+        cursor: pointer;
+        &.clicked {
+          background-color: var(--main-color);
+          opacity: 0.2;
+          pointer-events: none;
+        }
+      }
+      &.finished {
+        pointer-events: none;
+      }
+    }
+  }
+
+  .letters-guess {
+    margin: 10px auto;
+    background-color: #f8f8f8;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 104px;
+    span {
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      margin-right: 10px;
+      text-align: center;
+      line-height: 60px;
+      text-transform: uppercase;
+      background-color: #fdfdfd;
+      border-bottom: 3px solid var(--main-color);
+      transition: 0.3s;
+      -webkit-transition: 0.3s;
+      -moz-transition: 0.3s;
+      -ms-transition: 0.3s;
+      -o-transition: 0.3s;
+
+      &.space {
+        background: none;
+        border-bottom: none;
+        position: relative;
+      }
+      &.space::before {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: var(--main-width);
+        background-color: var(--main-color);
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+      }
+    }
+  }
+}
+
+.popup,
+.win {
+  position: fixed;
+  padding: 100px 20px;
+  width: 80%;
+  top: 65%;
+  left: 10%;
+  text-align: center;
+  font-size: 40px;
+  border: 1px solid #ccc;
+  color: white;
+}
+
+.popup {
+  background-color: #009688;
+}
+.win {
+  background-color: #e91e63;
+}
+
+@media (max-width: 992px) {
+  .container {
+    margin: 15px auto;
+    width: fit-content;
+    .row {
+      .letters {
+        .letter-box {
+          width: 45px;
+          height: 45px;
+          line-height: 45px;
+        }
+      }
+    }
+
+    .letters-guess {
+      span {
+        width: 45px;
+        height: 45px;
+        line-height: 45px;
+      }
+    }
+  }
+
+  .popup,
+  .win {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column-reverse;
+  }
+
+  .letters {
+    width: 350px;
+  }
+
+  .hangman-draw {
+    width: 350px;
+  }
+
+  .letters-guess {
+    width: 350px;
+  }
+
+  .popup {
+    padding: 50px 0;
+    top: 50%;
+    font-size: 20px;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+  }
+
+  .game-info {
+    flex-direction: column;
+    text-align: center;
+    div,
+    button {
+      margin-bottom: 10px;
+    }
+  }
+
+  #restartButton {
+    width: fit-content;
+    margin: 0 auto 10px;
+  }
+}
+
+#restartButton {
+  background-color: var(--main-color);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  font-weight: bold;
+}
